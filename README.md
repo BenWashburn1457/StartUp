@@ -3,4 +3,4 @@ This is a test
 New changes
 Even more new changes
 
-This is actually very cool
+This is actually super cool

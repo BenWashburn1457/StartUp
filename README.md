@@ -1,6 +1,3 @@
 # StartUp
-This is a test
-New changes
-Even more new changes
 
-This is actually super cool
+Notes file: https://github.com/BenWashburn1457/StartUp/blob/main/notes.md

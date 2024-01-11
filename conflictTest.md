@@ -1,1 +1,1 @@
-Conflict is no bueno. Now I just added some
+Conflict is no bueno. Here I added some.

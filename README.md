@@ -1,11 +1,16 @@
 # StartUp
 
 ## Elevator Pitch
-I would like to present a project called ProjectInspire, a groundbreaking social media platform designed to redefine the online experience. In an era dominated by platforms saturated with superficial content, ProjectInspire emerges as a beacon of authenticity and innovation.
 
-The motivation behind ProjectInspire stems from the frustration of scrolling through existing platforms cluttered with photos portraying artificial lifestyles. This platform is strategically crafted to counter that narrative. It serves as a dedicated space for users to showcase their genuine achievements and share inspiring projects – be it the creation of robotic arms, baking extraordinary cakes, or developing revolutionary programs that interpret sign language.
+Welcome to the 2048 game where the excitement of 2048 meets the thrill of competition! Immerse yourself in the world of strategic puzzle-solving as you navigate through tiles, aiming to reach the elusive 2048 tile. Our platform goes beyond the traditional 2048 experience by offering users the ability to not only track their personal high scores but also engage in friendly competition with other players worldwide. Challenge yourself to achieve faster completion times and witness your name rise on the global leaderboard.
 
-What distinguishes ProjectInspire is its emphasis on creating a collaborative community. It's not just about showcasing achievements; it's a dynamic hub where users exchange ideas, seek advice, and cultivate a supportive environment for projects that truly matter to them.
+Whether you're a casual player looking for a quick mental workout or a dedicated 2048 enthusiast aiming for the top spot, '2048Challenge.com' offers a dynamic and engaging environment for all. Join us in this journey of numbers, strategy, and friendly competition. Elevate your gaming experience, showcase your skills, and become part of the thriving 2048 community today!"
+
+
+
+
+
+
 
 ## Links
 Notes file: https://github.com/BenWashburn1457/StartUp/blob/main/notes.md

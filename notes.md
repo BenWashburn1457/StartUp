@@ -1,7 +1,7 @@
-Notes:
+#Notes
 
 
-Git and GitHub:
+##Git and GitHub
 
 
 -Git is a form of version control
@@ -13,9 +13,11 @@ Git and GitHub:
     $ git pull : This synce the github repository to the local repository
     $ git status : This tells you what the status is of the stage, as well as differences betweent it and the github repository
     $ git fetch : This gets the latest info about the github repository without making changes to the local
+    
+    in vs code, after commiting, you write your message and then hit esc and type :wq
 
 
-Important Technologies:
+##Important Technologies
     HTML - Structure
     CSS - Style
     JavaScript - Interaction
@@ -23,6 +25,9 @@ Important Technologies:
     Database/Login - Persisted app and auth data
     WebSocket - Data pushed from server, such as notifications and chat
     React - Web framework
+
+
+
 
 
 THE END

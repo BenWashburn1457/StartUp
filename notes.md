@@ -1,7 +1,7 @@
-#Notes
+# Notes
 
 
-##Git and GitHub
+## Git and GitHub
 
 
 -Git is a form of version control
@@ -17,7 +17,7 @@
     in vs code, after commiting, you write your message and then hit esc and type :wq
 
 
-##Important Technologies
+## Important Technologies
     HTML - Structure
     CSS - Style
     JavaScript - Interaction

@@ -3,6 +3,7 @@ Notes:
 
 Git and GitHub:
 
+
 -Git is a form of version control
 -Here are several commands that help you create and edit the repository
     $ touch [filename] : Creates a file in the repository
@@ -12,6 +13,16 @@ Git and GitHub:
     $ git pull : This synce the github repository to the local repository
     $ git status : This tells you what the status is of the stage, as well as differences betweent it and the github repository
     $ git fetch : This gets the latest info about the github repository without making changes to the local
+
+
+Important Technologies:
+    HTML - Structure
+    CSS - Style
+    JavaScript - Interaction
+    Service - Web service endpoints
+    Database/Login - Persisted app and auth data
+    WebSocket - Data pushed from server, such as notifications and chat
+    React - Web framework
 
 
 THE END

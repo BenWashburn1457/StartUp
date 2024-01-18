@@ -6,8 +6,7 @@ Welcome to the 2048 game where the excitement of 2048 meets the thrill of compet
 
 Whether you're a casual player looking for a quick mental workout or a dedicated 2048 enthusiast aiming for the top spot, '2048Challenge.com' offers a dynamic and engaging environment for all. Join us in this journey of numbers, strategy, and friendly competition. Elevate your gaming experience, showcase your skills, and become part of the thriving 2048 community today!"
 
-![Diagram of main screen](/Mainscreen_Diagram.jpg)
-![Diagram of leaderboard screen](/Leaderboard_Diagram.jpg)
+<img src="/Mainscreen_Diagram.jpg" width="300">  <img src="/Leaderboard_Diagram.jpg" width="310">
 ## Key Features and Technology
 ### Key Features
 2048 is a encaptivating puzzle game. After creating/signing into an account, the user will see tiles arranged in a 4x4 table shape. To start thge game, the tiles will all be empty besides two, which will have twos inside. The user can combine tiles with the smae number on them, in order to add the numbers together. The goal is to combine tiles until the user gets to 2048. The player can do this be pressing the arrow keys, which will move all tiles that can move in the direction pressed as far as possible, and combining  with like tiles if a collion occurs. A leaderboards will be updated so that all players can see each others scores, and compete to have the best scores and times. Users will also be able to see who is active, and see their current highest tile.

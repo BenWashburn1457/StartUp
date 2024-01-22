@@ -27,6 +27,12 @@ Database/Login - Persisted app and auth data
 WebSocket - Data pushed from server, such as notifications and chat
 React - Web framework
 
+## SSH
+To connect to server, use this SSH command:
+```ssh -i /StartUp/cs260-key.pem ubuntu@ben2048.click```
+
+## Caddy
+Caddy will rout you depending on what was searched
 
 
 

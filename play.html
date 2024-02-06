@@ -20,7 +20,62 @@
         </header>
 
         <main>
-            <canvas id="gameCanvas" width="500" height="500" style="border:5px solid #8510a5;"></canvas>
+
+            <h2>Players Online: 0</h2>
+            <table border="1" height="100" style="border:2px solid #8510a5; border-collapse: collapse; text-align: center;">
+                <label>Recent Updates</label>
+                <tbody>
+                    <tr>
+                        <td>Bob is at 128!</td>
+                    </tr>
+                    <tr>
+                        <td>Kelly lost at 1024</td>
+                    </tr>
+                    <tr>
+                        <td>New Record by Billy: 2048</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <h3>Score: 0</h3>
+            <br>
+            <canvas id="gameCanvas" width="500" height="500" style="border:5px solid #6b0487;"></canvas>
+            <script>
+                // Get the canvas element
+                const canvas = document.getElementById('gameCanvas');
+                const ctx = canvas.getContext('2d');
+        
+                // Set the size of each grid cell and the number of cells
+                const cellSize = 500/4;
+                const numRows = canvas.height / cellSize;
+                const numCols = canvas.width / cellSize;
+        
+                // Function to draw the grid
+                function drawGrid() {
+                    ctx.beginPath();
+        
+                    // Draw vertical lines
+                    for (let col = 0; col <= numCols; col++) {
+                        const x = col * cellSize;
+                        ctx.moveTo(x, 0);
+                        ctx.lineTo(x, canvas.height);
+                    }
+        
+                    // Draw horizontal lines
+                    for (let row = 0; row <= numRows; row++) {
+                        const y = row * cellSize;
+                        ctx.moveTo(0, y);
+                        ctx.lineTo(canvas.width, y);
+                    }
+        
+                    // Set the style and stroke the lines
+                    ctx.strokeStyle = '#6b0487';
+                    ctx.stroke();
+                }
+        
+                // Call the drawGrid function
+                drawGrid();
+            </script>
         </main>
     </body>
 

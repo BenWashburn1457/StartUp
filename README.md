@@ -19,6 +19,14 @@ Whether you're a casual player looking for a quick mental workout or a dedicated
 **Database Persistence** - User accounts, scores, times, and any other infromation will be stored in a database.  
 **Websocket** - This will be used so that the user can see who else is active on the website, and well as monitor their progress in the game.  
 
+### HTML Deliverable
+In this delivable, I was able to create the structure of my website using HTML.
++ **HTML Pages** - The webesite has three HTMl pages: the login, the play screen, and the leaderboards
++ **Links** - There are links in the header of each page that help the user to navigate
++ **Images** - There is a ai generated image of a person going onto an adventure into the world of numbers that is the game 2048
++ **Login** - There is an input box for the name and password, and a submit button.
++ **DB** - There is section in the play page that shows the score, which is drfawn from the database. Also the leaderboards will be drawn from the database
++ **Websocket** - There is a spot for updates in the playt section that shows live updates of other online players.
 
 ## Links
 Notes file: https://github.com/BenWashburn1457/StartUp/blob/main/notes.md

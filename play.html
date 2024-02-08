@@ -3,26 +3,17 @@
     <head>
         <title>2048 HTML</title>
         <link rel="icon" href="2048.ico.jpg" />
+        <link rel="stylesheet" href="styles_play.css">
     </head>
     
     <body>
         <header>
-            <h1>Play 2048</h1>
-            <nav>
-                <menu>
-                    <label>Links:</label>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="play.html">Play</a></li>
-                    <li><a href="leaderboard.html">Leaderboards</a></li>
-                </menu>
-            </nav>
-            <hr />    
+            <h1>Score: 0</h1>    
         </header>
 
         <main>
-
-            <h2>Players Online: 0</h2>
-            <table border="1" height="100" style="border:2px solid #8510a5; border-collapse: collapse; text-align: center;">
+            <div id="middle-stuff">
+            <table border="1" class="side" height="100" style="border:2px solid #000000; border-collapse: collapse; text-align: center;">
                 <label>Recent Updates</label>
                 <tbody>
                     <tr>
@@ -36,10 +27,9 @@
                     </tr>
                 </tbody>
             </table>
-            <br>
-            <h3>Score: 0</h3>
-            <br>
-            <canvas id="gameCanvas" width="500" height="500" style="border:5px solid #6b0487;"></canvas>
+            <h2 class="side">Players Online: 0</h2>
+            </div>
+            <canvas id="gameCanvas" width="500" height="500" style="border:5px solid #000000"></canvas>
             <script>
                 // Get the canvas element
                 const canvas = document.getElementById('gameCanvas');
@@ -69,13 +59,21 @@
                     }
         
                     // Set the style and stroke the lines
-                    ctx.strokeStyle = '#6b0487';
+                    ctx.strokeStyle = '#000000';
                     ctx.stroke();
                 }
         
                 // Call the drawGrid function
                 drawGrid();
             </script>
+            <nav>
+                <menu>
+                    <label>Links:</label>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="play.html">Play</a></li>
+                    <li><a href="leaderboard.html">Leaderboards</a></li>
+                </menu>
+            </nav>
         </main>
     </body>
 

@@ -8,12 +8,21 @@
     
     <body>
         <header>
-            <h1>Score: 0</h1>    
+                <nav>
+                    <menu>
+                        <label>Links:</label>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="play.html">Play</a></li>
+                        <li><a href="leaderboard.html">Leaderboards</a></li>
+                    </menu>
+                </nav>
         </header>
 
         <main>
-            <div id="middle-stuff">
-            <table border="1" class="side" height="100" style="border:2px solid #000000; border-collapse: collapse; text-align: center;">
+            <h1>Score: 0</h1>
+            <div class="game">
+            <div class="side">
+            <table border="1" height="100" style="border:2px solid #000000; border-collapse: collapse; text-align: center;">
                 <label>Recent Updates</label>
                 <tbody>
                     <tr>
@@ -27,7 +36,7 @@
                     </tr>
                 </tbody>
             </table>
-            <h2 class="side">Players Online: 0</h2>
+            <h2>Players Online: 0</h2>
             </div>
             <canvas id="gameCanvas" width="500" height="500" style="border:5px solid #000000"></canvas>
             <script>
@@ -66,14 +75,7 @@
                 // Call the drawGrid function
                 drawGrid();
             </script>
-            <nav>
-                <menu>
-                    <label>Links:</label>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="play.html">Play</a></li>
-                    <li><a href="leaderboard.html">Leaderboards</a></li>
-                </menu>
-            </nav>
+        </div>
         </main>
     </body>
 

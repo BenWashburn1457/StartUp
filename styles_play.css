@@ -39,11 +39,17 @@ h1 {
         3px  3px 0 #000;
 }
 
+.gray-link {
+    color:darkgrey;
+    text-decoration: none;
+}
+
 header {
     display: flex;
     height: 40px;
     background-color: rgb(0, 11, 17);
     margin: 0;
+    align-items: center;
 }
 
 main {

@@ -28,5 +28,13 @@ In this delivable, I was able to create the structure of my website using HTML.
 + **DB** - There is section in the play page that shows the score, which is drfawn from the database. Also the leaderboards will be drawn from the database
 + **Websocket** - There is a spot for updates in the playt section that shows live updates of other online players.
 
+### CSS Deliverables
++ **HTML Pages** - Created a new layout that is responsive to different sizes. More organized and professional design. New color scheme.
++ **Links** - The links got moved to the top and formatted to look more appealing.
++ **Images** - The images are now in line with the title on the main page, move in and out in response to resizing.
++ **Login** - There is an input box for the name and password, and a submit button.
++ **DB** - Made the display more appealing and organized.
++ **Websocket** - Placed the table of updates on the side of screen.
+
 ## Links
 Notes file: https://github.com/BenWashburn1457/StartUp/blob/main/notes.md

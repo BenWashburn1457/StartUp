@@ -8,11 +8,16 @@ html{
     height: 100%;
 }
 
+.name {
+    color: darkgray;
+    padding: 10px;
+}
 
 .gray-link {
     color:darkgrey;
     text-decoration: none;
 }
+
 header {
     display: flex;
     height: 40px;
@@ -20,6 +25,7 @@ header {
     margin: 0;
 
     align-items: center;
+    justify-content: space-between;
 }
                 
 body {

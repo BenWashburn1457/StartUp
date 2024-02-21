@@ -44,12 +44,18 @@ h1 {
     text-decoration: none;
 }
 
+.name {
+    color: darkgray;
+    padding: 10px;
+}
+
 header {
     display: flex;
     height: 40px;
     background-color: rgb(0, 11, 17);
     margin: 0;
     align-items: center;
+    justify-content: space-between;
 }
 
 main {

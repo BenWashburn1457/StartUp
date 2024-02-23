@@ -1,5 +1,5 @@
-userName = localStorage.getItem("userName")
-console.log("wassup")
+userName = localStorage.getItem("userName");
+
 if (userName) {
     const user = document.querySelector(".name");
 

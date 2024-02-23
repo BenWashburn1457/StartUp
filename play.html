@@ -40,45 +40,6 @@
             <h2>Players Online: 0</h2>
             </div>
             <canvas id="gameCanvas" width="500" height="500" style="border:5px solid #000000"></canvas>
-            <script>
-                // Get the canvas element
-                const canvas = document.getElementById('gameCanvas');
-                const ctx = canvas.getContext('2d');
-        
-                // Set the size of each grid cell and the number of cells
-                const cellSize = 500/4;
-                const numRows = canvas.height / cellSize;
-                const numCols = canvas.width / cellSize;
-        
-                // Function to draw the grid
-                function drawGrid() {
-                    ctx.beginPath();
-
-                    ctx.fillStyle = 'rgb(200, 230, 255)';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-                    // Draw vertical lines
-                    for (let col = 0; col <= numCols; col++) {
-                        const x = col * cellSize;
-                        ctx.moveTo(x, 0);
-                        ctx.lineTo(x, canvas.height);
-                    }
-        
-                    // Draw horizontal lines
-                    for (let row = 0; row <= numRows; row++) {
-                        const y = row * cellSize;
-                        ctx.moveTo(0, y);
-                        ctx.lineTo(canvas.width, y);
-                    }
-        
-                    // Set the style and stroke the lines
-                    ctx.strokeStyle = '#000000';
-                    ctx.stroke();
-                }
-        
-                // Call the drawGrid function
-                drawGrid();
-            </script>
         </div>
         </main>
     </body>

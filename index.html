@@ -4,7 +4,7 @@
         <title>2048 HTML</title>
         <link rel="icon" href="2048.ico.jpg" />
         <link rel="stylesheet" href="styles.css">
-        
+        <script src="login.js"></script>
     </head>
     <body>
         <header>
@@ -15,7 +15,6 @@
                     <li><a href="leaderboard.html" class="gray-link">Leaderboards</a></li>
                 </menu>
             </nav>
-            <div class="name"><p>User</p></div>
         </header>
         
         <main>   
@@ -28,12 +27,12 @@
             <div class="login">
                 <h2>Prepare yourself for the adventure of a lifetime</h2>
                 <p>Login to play</p>
-                <form method="get" action="play.html">
+                <form method="get" action="play.html" >
                     <label for="name">Name</label>
                     <input type="text" id="name" placeholder="Your name here"/><br />
                     <label for="password">Password</label>
                     <input type="text" id="password" placeholder="Your password here"/>
-                    <button type="submit">Login</button>
+                    <button type="submit" onclick="login()">Login</button>
                 </form>
             </div>
         </main>

@@ -40,77 +40,6 @@ class Grid {
 }
 }
 
-function populate(grid){
-    let newx = -1;
-    let newy = -1;
-    let newNumber = (Math.floor(Math.random())+1)*2
-    while(grid.getSquare(newx, newy)!== 0){
-        newx = Math.floor(Math.random() *(4))
-        newy = Math.floor(Math.random() *(4))
-    }
-    new Square(newNumber, newx, newy, grid)
-    move = false
-}
-
-function handleArrowKey(event) {
-    if (event.keyCode === 37) {
-        // Left arrow key pressed
-        // Call your function for left arrow key
-        left_key()
-    } else if (event.keyCode === 38) {
-        // Up arrow key pressed
-        // Call your function for up arrow key
-        up_key()
-    } else if (event.keyCode === 39) {
-        // Right arrow key pressed
-        // Call your function for right arrow key
-        right_key()
-    } else if (event.keyCode === 40) {
-        // Down arrow key pressed
-        // Call your function for down arrow key
-        down_key()
-    }
-    if(move){populate(g1)}
-        
-    let debug = [];
-    g1.grid.forEach(y => {
-        debug = [];
-        y.forEach(x => {
-            if(x == 0){
-                debug.push(x);
-            } else{
-                debug.push(x.number)
-            }
-        })
-        console.log(debug)
-    })
-    console.log("")
-}
-
-function up_key(){
-    squares.slice().sort((a, b) => (a.x+a.y*4) - (b.x+b.y*4)).forEach(square =>{
-        square.direction_control("up")
-        });
-}
-
-function down_key(){
-    squares.slice().sort((a, b) => (b.x+b.y*4) - (a.x+a.y*4)).forEach(square =>{
-        square.direction_control("down")
-        });
-}
-
-function right_key(){
-    squares.slice().sort((a, b) => (b.y+b.x*4) - (a.y+a.x*4)).forEach(square =>{
-        square.direction_control("right")
-        });
-}
-
-function left_key(){
-    squares.slice().sort((a, b) => (a.y+a.x*4) - (b.y+b.x*4)).forEach(square =>{
-        square.direction_control("left")
-        });
-}
-
 class Square {
     constructor(number, x, y, grid) {
         this.number = number;
@@ -176,6 +105,72 @@ class Square {
 
 }
 
+function populate(grid){
+    let newx = -1;
+    let newy = -1;
+    let newNumber = Math.random() < 0.5 ? 2 : 4;
+
+    while(grid.getSquare(newx, newy)!== 0){
+        newx = Math.floor(Math.random() *(4))
+        newy = Math.floor(Math.random() *(4))
+    }
+    new Square(newNumber, newx, newy, grid)
+    move = false
+}
+
+function handleArrowKey(event) {
+    if (event.keyCode === 37) {
+        squares.slice().sort((a, b) => (a.y+a.x*4) - (b.y+b.x*4)).forEach(square =>{
+            square.direction_control("left")
+            });
+    } else if (event.keyCode === 38) {
+        squares.slice().sort((a, b) => (a.x+a.y*4) - (b.x+b.y*4)).forEach(square =>{
+            square.direction_control("up")
+            });
+    } else if (event.keyCode === 39) {
+        squares.slice().sort((a, b) => (b.y+b.x*4) - (a.y+a.x*4)).forEach(square =>{
+            square.direction_control("right")
+            });
+    } else if (event.keyCode === 40) {
+        squares.slice().sort((a, b) => (b.x+b.y*4) - (a.x+a.y*4)).forEach(square =>{
+            square.direction_control("down")
+            });
+    }
+    if(move){populate(g1); changeScreen(g1)}
+    
+    let debug = [];
+    g1.grid.forEach(y => {
+        debug = [];
+        y.forEach(x => {
+            if(x == 0){
+                debug.push(x);
+            } else{
+                debug.push(x.number)
+            }
+        })
+        console.log(debug)
+    })
+    console.log("")
+}
+
+
+function changeScreen(grid){
+    let game = document.getElementById("game");
+    console.log("screen changed")
+    for(let y = 0; y< grid.grid.length; y++){
+        let row = game.rows[y];
+        for(let x = 0; x< grid.grid[y].length; x++){
+            let column = row.cells[x]
+            console.log(column)
+            if(grid.getSquare(x, y) === 0){
+                column.textContent = "";
+            } else {
+                column.textContent = grid.getSquare(x, y).number
+            }
+        }
+    }
+}
+
 userName = localStorage.getItem("userName");
 
 if (userName) {
@@ -186,41 +181,8 @@ if (userName) {
     }
 }
 
-// Get the canvas element
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+g1 = new Grid()
 
-// Set the size of each grid cell and the number of cells
-const cellSize = 500/4;
-const numRows = canvas.height / cellSize;
-const numCols = canvas.width / cellSize;
-
-// Function to draw the grid
-function drawGrid() {
-    ctx.beginPath();
-
-    ctx.fillStyle = 'rgb(200, 230, 255)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Draw vertical lines
-    for (let col = 0; col <= numCols; col++) {
-        const x = col * cellSize;
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-    }
-
-    // Draw horizontal lines
-    for (let row = 0; row <= numRows; row++) {
-        const y = row * cellSize;
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-    }
-
-    // Set the style and stroke the lines
-    ctx.strokeStyle = '#000000';
-    ctx.stroke();
-}
-
-// Call the drawGrid function
-drawGrid();
-
+populate(g1)
+populate(g1)
+changeScreen(g1)

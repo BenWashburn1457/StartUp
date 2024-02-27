@@ -4,7 +4,7 @@
         <title>2048 HTML</title>
         <link rel="icon" href="2048.ico.jpg" />
         <link rel="stylesheet" href="styles_play.css">
-        <script src="play.js"></script>
+
     </head>
     
     <body>
@@ -40,7 +40,14 @@
             </table>
             <h2>Players Online: 0</h2>
             </div>
-            <canvas id="gameCanvas" width="500" height="500" style="border:5px solid #000000"></canvas>
+            <div class="grid">
+                <table id="game">
+                    <tr><td></td><td></td><td></td><td></td></tr>
+                    <tr><td></td><td></td><td></td><td></td></tr>
+                    <tr><td></td><td></td><td></td><td></td></tr>
+                    <tr><td></td><td></td><td></td><td></td></tr>
+                </table>
+            </div>
         </div>
         </main>
     </body>

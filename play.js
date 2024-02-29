@@ -1,5 +1,6 @@
 var squares = [];
 var move = false;
+var total = 0;
 document.addEventListener("keydown", handleArrowKey)
 class Grid {
     constructor(height=4, width=4) {
@@ -118,6 +119,34 @@ function populate(grid){
     move = false
 }
 
+function score(){
+    total = 0
+    squares.forEach(square => {total += square.number;})
+    let score = document.getElementsByClassName("score");
+    score[0].textContent = `Score: ${total}`
+}
+
+function endgame() {
+    for (let i = 0; i < squares.length; i++) {
+        const square = squares[i];
+        console.log(`square ${i}`)
+        console.log("")
+        if (square.number === g1.getSquare(square.x - 1, square.y).number ||
+            square.number === g1.getSquare(square.x + 1, square.y).number ||
+            square.number === g1.getSquare(square.x, square.y - 1).number ||
+            square.number === g1.getSquare(square.x, square.y + 1).number) {
+            // If any adjacent square has the same number, return false
+            return false;
+        }
+    }
+    // If no adjacent squares have the same number, return true
+        console.log("gameover")
+        let score = document.getElementsByClassName("score");
+        score[0].textContent = `Gameover   Score: ${total}`
+
+        localStorage.setItem("score", total);
+}
+
 function handleArrowKey(event) {
     if (event.keyCode === 37) {
         squares.slice().sort((a, b) => (a.y+a.x*4) - (b.y+b.x*4)).forEach(square =>{
@@ -136,32 +165,17 @@ function handleArrowKey(event) {
             square.direction_control("down")
             });
     }
-    if(move){populate(g1); changeScreen(g1)}
-    
-    let debug = [];
-    g1.grid.forEach(y => {
-        debug = [];
-        y.forEach(x => {
-            if(x == 0){
-                debug.push(x);
-            } else{
-                debug.push(x.number)
-            }
-        })
-        console.log(debug)
-    })
-    console.log("")
+    if(move){populate(g1); score(); if(squares.length >= 16){endgame()} changeScreen(g1)}
+
 }
 
 
 function changeScreen(grid){
     let game = document.getElementById("game");
-    console.log("screen changed")
     for(let y = 0; y< grid.grid.length; y++){
         let row = game.rows[y];
         for(let x = 0; x< grid.grid[y].length; x++){
             let column = row.cells[x]
-            console.log(column)
             if(grid.getSquare(x, y) === 0){
                 column.textContent = "";
             } else {

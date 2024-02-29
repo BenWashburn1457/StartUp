@@ -40,7 +40,7 @@ In this delivable, I was able to create the structure of my website using HTML.
 + **HTML Pages** - The 2048 game on the play.html works because of JavaScript. It controls the game logic as well as the display on the screen. There is an event listerner that detects when the arrow keys are pressed, which then moves the squares within the game table. Handles the movement and combination of squares to help accomplish the goal of getting to 2048.
 + **Login** - Now the login username is saved on the browser and displayed in the top right through Javascript
 + **DB** - The javascript will store data about scores and add them to the database
-+ **Websocket** - The Javascript will edit the reecnt news table with all the data recieved from websocket
++ **Websocket** - The Javascript will edit the recent news table with all the data recieved from websocket
 
 ## Links
 Notes file: https://github.com/BenWashburn1457/StartUp/blob/main/notes.md

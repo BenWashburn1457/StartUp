@@ -5,21 +5,47 @@ const port = process.argv.length > 2 ? process.argv[2] :3000
 
 app.use(express.json());
 
-app.use(express.static('public '));
+app.use(express.static('public'));
 
 var apiRouter = express.Router();
 app.use('/api', apiRouter);
 
+apiRouter.get('/leaderboard', (req, res) => {
+  console.log("sending leaderboard")
+  res.send(leaderboard);
+})
 
-const path = require('path');
-app.use((_req, res) => {
-    const requestedFile = _req.path;
-    const fileExtension = path.extname(requestedFile);
-    const fileName = fileExtension ? requestedFile : 'index.html';
-    res.sendFile(fileName, { root: 'public' });
+apiRouter.post('/leaderboard', (req, res) => {
+  leaderboard = updateLeaderboard(req.body, leaderboard);
+  res.send(leaderboard);
+})
 
-  });
+
+app.use((_req, res) => {res.sendFile("index.html", { root: 'public' });});
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
-  });
+});
+
+let leaderboard = [
+  {name: "ben", score: "1038", date: "03/07/2024"},
+  {name: "bob", score: "542", date: "03/07/2024"},
+  {name: "shyla", score: "128", date: "03/07/2024"}
+];
+
+function updateLeaderboard(newScore, leaderboard){
+  let record = false;
+  for (const [i, prevScore] of leaderboard.entries()) {
+    if (newScore.score > prevScore.score) {
+      leaderboard.splice(i,0, newScore)
+      record = true;
+      break;
+    }
+  }
+
+  if (!record){leaderboard.push(newScore)}
+
+  if (leaderboard.length > 10) {leaderboard.length = 10;}
+
+  return leaderboard;
+}

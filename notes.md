@@ -212,11 +212,15 @@ some	Run a function to test if any items match	a.some(i => 1 < 1)
 ### Regex
 <img src="/Regex-Cheat-Sheet.png" width="300">
 
-## Local Storage
+### Local Storage
 Function	Meaning
 setItem(name, value)	Sets a named item's value into local storage
 getItem(name)	Gets a named item's value from local storage
 removeItem(name)	Removes a named item from local storage
 clear()	Clears all items in local storage
+
+## Web Service
+
+Service endpoints:
 
 THE END

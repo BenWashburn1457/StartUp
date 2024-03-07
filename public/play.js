@@ -145,6 +145,35 @@ function endgame() {
         score[0].textContent = `Gameover   Score: ${total}`
 
         localStorage.setItem("score", total);
+        saveScore(total);
+}
+
+function saveScore(score){
+    const date = new Date().toLocaleDateString();
+
+    fetch('/api/leaderboard', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: userName,
+            score: score,
+            date: date
+        })
+    })
+    .then(Response =>{
+        if(!Response.ok){
+            throw new error('Network response was not ok');
+        }
+        return Response.json();
+    })
+    .then(data => {
+        console.log("Successfully posted data:", data);
+    })
+    .catch(error => {
+        console.error('Error posting data: ', error)
+    })
 }
 
 function handleArrowKey(event) {

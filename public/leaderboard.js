@@ -1,7 +1,9 @@
 async function loadLeaderboard() {
     let leaderboard =[];
     try {
-        const response = await fetch('/api/leaderboard');
+        const response = await fetch('/api/leaderboard', {
+            method: 'POST'
+        });
         leaderboard = await response.json();
         
         localStorage.setItem('leaderboard', JSON.stringify(leaderboard));

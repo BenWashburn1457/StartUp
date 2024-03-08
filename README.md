@@ -42,5 +42,12 @@ In this delivable, I was able to create the structure of my website using HTML.
 + **DB** - The javascript will store data about scores and add them to the database
 + **Websocket** - The Javascript will edit the recent news table with all the data recieved from websocket
 
+### Service Deliverables
++ The startup service is using **Node.js** and **express**
++ The frotend is served up using **Express static middleware** through the index.js
++ The leaderboard.js file calls on a famous quotes api in order to display a famous quote
++ The backend has **Get** and **POST** endpoints to enable scores to be stored and later displayed on a leaderboard
++ The leaderboard.js file uses **GET** methods and the play.js file uses **POST** methods in order to call service endpoints
+
 ## Links
 Notes file: https://github.com/BenWashburn1457/StartUp/blob/main/notes.md

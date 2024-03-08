@@ -40,19 +40,39 @@ menu {
     padding: 0;
 }
 
-h1 {
-    font-size: 50px;
-    color: rgb(214, 130, 99);
-    padding: 0.25em;
+table {
+    width: 85%;
+    align-self: center;
+}
+
+#leaderboard td {
+    background-color: rgb(148, 182, 199); /* Cell background color */
+    width: 25%;
+    height: 25%;
+    padding: 20px; /* Padding for cell content */
+    text-align: center;
+    font-size: 24px; /* Font size for cell content */
+    font-weight: bold; /* Bold font for cell content */
+    border: 6px solid  rgb(202, 168, 155) ; /* Border color similar to 2048 */
 }
 
 main {
     display: flex;
+    position: relative;
     flex-direction: column;
     background-color: rgb(214, 130, 99);
    
     flex-grow: 1;
 
+}
+
+#inspiration {
+    padding: 10px;
+    background-color: rgb(202, 168, 155);
+    border: 2px solid black;
+    position: absolute;
+    align-self: center;
+    bottom: 0;
 }
 
 footer {

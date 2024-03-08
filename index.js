@@ -27,11 +27,7 @@ app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
-let leaderboard = [
-  {name: "ben", score: "1038", date: "03/07/2024"},
-  {name: "bob", score: "542", date: "03/07/2024"},
-  {name: "shyla", score: "128", date: "03/07/2024"}
-];
+let leaderboard = [];
 
 function updateLeaderboard(newScore, leaderboard){
   let record = false;

@@ -32,7 +32,7 @@ To connect to server, use this SSH command:
 ```ssh -i /cs260/cs260-key.pem ubuntu@ben2048.click```
 
 To deploy files to server:
-```./deployFiles.sh -k ../cs260-key.pem -h ben2048.click -s startup```
+```./deployService.sh -k ../cs260-key.pem -h ben2048.click -s startup```
 
 ## Caddy
 Caddy will rout you depending on what was searched

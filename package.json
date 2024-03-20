@@ -10,6 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "give-me-a-joke": "^0.3.2"
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "give-me-a-joke": "^0.3.2",
+    "mongodb": "^6.5.0"
   }
 }

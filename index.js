@@ -1,7 +1,9 @@
 const express = require('express')
+const cookieParser = require('cookie-parser');
 const app = express();
-
+const bcrypt = require('bcrypt');
 const port = process.argv.length > 2 ? process.argv[2] :3000
+const DB = require('./database.js');
 
 app.use(express.json());
 
@@ -14,6 +16,28 @@ apiRouter.get('/leaderboard', (req, res) => {
   console.log("sending leaderboard")
   res.send(leaderboard);
 })
+
+apiRouter.post('auth/create', async (req, res) => {
+  if (await DB.getUser(req.body.email)) {
+    res.status(409).send({msg: 'Existing User'});
+  } else {
+    const user = await DB.createUser(req.body.email, req.body.password);
+
+    setAuthCookie(res, user.token);
+
+    res.send({
+      id: user._id,
+    });
+  }
+})
+
+function setAuthCookie(res, authToken) {
+  res.cookie('token', authToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict',
+  });
+}
 
 apiRouter.post('/leaderboard', (req, res) => {
   leaderboard = updateLeaderboard(req.body, leaderboard);
@@ -41,7 +65,7 @@ function updateLeaderboard(newScore, leaderboard){
 
   if (!record){leaderboard.push(newScore)}
 
-  if (leaderboard.length > 10) {leaderboard.length = 10;}
+  if (leaderboard.length > 7) {leaderboard.length = 7;}
 
   return leaderboard;
 }

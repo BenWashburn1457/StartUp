@@ -49,5 +49,13 @@ In this delivable, I was able to create the structure of my website using HTML.
 + The backend has **Get** and **POST** endpoints to enable scores to be stored and later displayed on a leaderboard
 + The leaderboard.js file uses **GET** methods and the play.js file uses **POST** methods in order to call service endpoints
 
+### Login Deliverables
++ Stores new user registration in MongoDB when create account pressed
++ Existing users can log in through login button
++ Stores scores for leaderboard in MongoDB
++ Uses MongoDB to authenticate
++ Users scores are only sent to database if logged in
++ Users can only see leaderboard if logged in
+
 ## Links
 Notes file: https://github.com/BenWashburn1457/StartUp/blob/main/notes.md

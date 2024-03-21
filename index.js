@@ -1,71 +1,83 @@
-const express = require('express')
+const express = require('express');
 const cookieParser = require('cookie-parser');
-const app = express();
-const bcrypt = require('bcrypt');
-const port = process.argv.length > 2 ? process.argv[2] :3000
 const DB = require('./database.js');
 
+const app = express();
+const port = process.argv.length > 2 ? process.argv[2] : 3000;
+
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(express.static('public'));
 
-var apiRouter = express.Router();
+const apiRouter = express.Router();
 app.use('/api', apiRouter);
 
-apiRouter.get('/leaderboard', (req, res) => {
-  console.log("sending leaderboard")
-  res.send(leaderboard);
-})
-
-apiRouter.post('auth/create', async (req, res) => {
-  if (await DB.getUser(req.body.email)) {
-    res.status(409).send({msg: 'Existing User'});
-  } else {
-    const user = await DB.createUser(req.body.email, req.body.password);
-
-    setAuthCookie(res, user.token);
-
-    res.send({
-      id: user._id,
-    });
-  }
-})
-
-function setAuthCookie(res, authToken) {
-  res.cookie('token', authToken, {
-    secure: true,
-    httpOnly: true,
-    sameSite: 'strict',
-  });
-}
-
-apiRouter.post('/leaderboard', (req, res) => {
-  leaderboard = updateLeaderboard(req.body, leaderboard);
-  res.send(leaderboard);
-})
-
-
-app.use((_req, res) => {res.sendFile("index.html", { root: 'public' });});
-
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Internal Server Error');
 });
 
-let leaderboard = [];
+// Middleware to handle asynchronous operations and errors
+const asyncMiddleware = fn => (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+};
 
-function updateLeaderboard(newScore, leaderboard){
-  let record = false;
-  for (const [i, prevScore] of leaderboard.entries()) {
-    if (newScore.score > prevScore.score) {
-      leaderboard.splice(i,0, newScore)
-      record = true;
-      break;
+apiRouter.get('/leaderboard', asyncMiddleware(async (req, res) => {
+    console.log("Sending leaderboard");
+    // Your code to handle leaderboard retrieval
+}));
+
+apiRouter.post('/auth/create', asyncMiddleware(async (req, res) => {
+    try {
+        const { userName, password } = req.body;
+        if (!userName || !password) {
+            return res.status(400).json({ msg: 'Username and password are required' });
+        }
+
+        if (await DB.getUser(userName)) {
+            return res.status(409).json({ msg: 'User already exists' });
+        }
+
+        const user = await DB.createUser(userName, password);
+        const authToken = user.token;
+
+        res.cookie('token', authToken, {
+            secure: true,
+            httpOnly: true,
+            sameSite: 'strict',
+        }).json({ id: user.token });
+    } catch (error) {
+        console.error("Error during user creation:", error);
+        res.status(500).json({ msg: 'Internal Server Error' });
     }
-  }
+}));
 
-  if (!record){leaderboard.push(newScore)}
+apiRouter.post('/leaderboard', asyncMiddleware(async (req, res) => {
+    console.log("Updating leaderboard");
+    // Your code to handle updating the leaderboard
+}));
 
-  if (leaderboard.length > 7) {leaderboard.length = 7;}
+// Serve index.html for all other routes
+app.use((_req, res) => {
+    res.sendFile("index.html", { root: 'public' });
+});
 
-  return leaderboard;
-}
+// Start the server and listen for incoming requests
+const server = app.listen(port, async () => {
+    try {
+        console.log(`Listening on port ${port}`);
+    } catch (error) {
+        console.error("Error connecting to database:", error);
+    }
+});
+
+// Keep the event loop active until the server is manually closed
+process.on('SIGINT', () => {
+    console.log('Shutting down...');
+    server.close(() => {
+        console.log('Server closed.');
+        process.exit(0);
+    });
+});

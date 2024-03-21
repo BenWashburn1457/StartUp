@@ -13,21 +13,14 @@ app.use(express.static('public'));
 const apiRouter = express.Router();
 app.use('/api', apiRouter);
 
-// Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Internal Server Error');
 });
 
-// Middleware to handle asynchronous operations and errors
 const asyncMiddleware = fn => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
 };
-
-apiRouter.get('/leaderboard', asyncMiddleware(async (req, res) => {
-    console.log("Sending leaderboard");
-    // Your code to handle leaderboard retrieval
-}));
 
 apiRouter.post('/auth/create', asyncMiddleware(async (req, res) => {
     try {
@@ -73,17 +66,24 @@ apiRouter.post('/auth/login', asyncMiddleware(async (req, res) => {
   
 }));
 
-apiRouter.post('/leaderboard', asyncMiddleware(async (req, res) => {
+apiRouter.post('/update/leaderboard', asyncMiddleware(async (req, res) => {
     console.log("Updating leaderboard");
-    // Your code to handle updating the leaderboard
+    const {userName, score, date} = req.body;
+    await DB.updateHighScores(userName, score, date);
 }));
 
-// Serve index.html for all other routes
+
+apiRouter.get('/leaderboard', asyncMiddleware(async (req, res) => {
+    console.log("Sending leaderboard");
+    
+    const scores = await DB.getHighScores();
+    res.send(scores);
+}));
+
 app.use((_req, res) => {
     res.sendFile("index.html", { root: 'public' });
 });
 
-// Start the server and listen for incoming requests
 const server = app.listen(port, async () => {
     try {
         console.log(`Listening on port ${port}`);
@@ -92,7 +92,6 @@ const server = app.listen(port, async () => {
     }
 });
 
-// Keep the event loop active until the server is manually closed
 process.on('SIGINT', () => {
     console.log('Shutting down...');
     server.close(() => {

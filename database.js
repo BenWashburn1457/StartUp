@@ -40,8 +40,30 @@ async function verifyLogin(userName, password) {
   return false;
 }
 
+async function updateHighScores(userName, score, date) {
+  const highScore = {
+    userName: userName,
+    score: score,
+    date: date,
+  };
+
+  await scores.insertOne(highScore);
+}
+
+async function getHighScores() {
+    const query = { score: {$gt: 0, $lt: 5000} };
+    const options = {
+      sort: { score : -1},
+      limit: 6,
+    };
+    const cursor = await scores.find(query, options);
+    return cursor.toArray();
+}
+
 module.exports = {
   getUser,
   createUser,
-  verifyLogin
+  verifyLogin,
+  getHighScores,
+  updateHighScores
 };

@@ -151,13 +151,13 @@ function endgame() {
 function saveScore(score){
     const date = new Date().toLocaleDateString();
 
-    fetch('/api/leaderboard', {
+    fetch('/api/update/leaderboard', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            name: userName,
+            userName: userName,
             score: score,
             date: date
         })

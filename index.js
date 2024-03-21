@@ -54,6 +54,25 @@ apiRouter.post('/auth/create', asyncMiddleware(async (req, res) => {
     }
 }));
 
+apiRouter.post('/auth/login', asyncMiddleware(async (req, res) => {
+  console.log("recieved login info")
+  const {userName, password} = req.body;
+  if (!userName || !password) {
+    return res.status(400).json({ msg: 'Username and password are required' });
+  }
+  let user = await DB.verifyLogin(userName, password);
+  if(user){
+    res.cookie('token', user.token, {
+      secure: true,
+      httpOnly: true,
+      sameSite: 'strict',
+    }).json({ id: user.token });
+  } else {
+    res.status(401).json({msg: 'Invalid username or password'});
+  }
+  
+}));
+
 apiRouter.post('/leaderboard', asyncMiddleware(async (req, res) => {
     console.log("Updating leaderboard");
     // Your code to handle updating the leaderboard

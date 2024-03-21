@@ -28,7 +28,20 @@ async function createUser(userName, password) {
   return user;
 }
 
+async function verifyLogin(userName, password) {
+  const user = await getUser(userName);
+  if(!user) {
+    return false;
+  }
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  if(passwordMatch) {
+    return user;
+  }
+  return false;
+}
+
 module.exports = {
   getUser,
-  createUser
+  createUser,
+  verifyLogin
 };

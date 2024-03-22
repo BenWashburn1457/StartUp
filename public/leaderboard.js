@@ -5,7 +5,12 @@ async function loadLeaderboard() {
             method: 'GET'
         });
         leaderboard = await response.json();
-        
+        if (response.status === 401) {
+            // Redirect the user to the login page
+            localStorage.setItem('logout', true);
+            window.location.href = '/login.html'; // Change to the appropriate URL
+            return;
+        }
         localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
     } catch {
 

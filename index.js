@@ -22,6 +22,12 @@ const asyncMiddleware = fn => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
 };
 
+apiRouter.post('/clear/cookie', (req, res) => {
+    console.log('clearing cookie')
+    res.cookie('token', '', { expires: new Date(0) });
+    res.status(200).send({ message: 'Cookie cleared successfully' });
+})
+
 apiRouter.post('/auth/create', asyncMiddleware(async (req, res) => {
     try {
         const { userName, password } = req.body;
@@ -66,14 +72,28 @@ apiRouter.post('/auth/login', asyncMiddleware(async (req, res) => {
   
 }));
 
-apiRouter.post('/update/leaderboard', asyncMiddleware(async (req, res) => {
+var secureApiRouter = express.Router();
+apiRouter.use(secureApiRouter);
+
+secureApiRouter.use(async (req, res, next) => {
+    authToken = req.cookies['token'];
+    const user = await DB.getUserByToken(authToken);
+    if (user) {
+      next();
+    } else {
+      res.status(401).send({ msg: 'Unauthorized' });
+      
+    }
+  });
+
+secureApiRouter.post('/update/leaderboard', asyncMiddleware(async (req, res) => {
     console.log("Updating leaderboard");
     const {userName, score, date} = req.body;
     await DB.updateHighScores(userName, score, date);
 }));
 
 
-apiRouter.get('/leaderboard', asyncMiddleware(async (req, res) => {
+secureApiRouter.get('/leaderboard', asyncMiddleware(async (req, res) => {
     console.log("Sending leaderboard");
     
     const scores = await DB.getHighScores();

@@ -15,6 +15,10 @@ function getUser(userName) {
   return users.findOne({ userName: userName });
 }
 
+function getUserByToken(token) {
+  return users.findOne({ token: token })
+}
+
 async function createUser(userName, password) {
   const passwordHash = await bcrypt.hash(password, 10);
 
@@ -65,5 +69,6 @@ module.exports = {
   createUser,
   verifyLogin,
   getHighScores,
-  updateHighScores
+  updateHighScores,
+  getUserByToken
 };

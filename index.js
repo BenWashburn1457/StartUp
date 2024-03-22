@@ -84,7 +84,11 @@ secureApiRouter.use(async (req, res, next) => {
       res.status(401).send({ msg: 'Unauthorized' });
       
     }
-  });
+});
+
+secureApiRouter.get('/play', asyncMiddleware(async (req, res) => {
+    console.log("verified");
+}));
 
 secureApiRouter.post('/update/leaderboard', asyncMiddleware(async (req, res) => {
     console.log("Updating leaderboard");

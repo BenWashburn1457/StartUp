@@ -214,6 +214,19 @@ function changeScreen(grid){
     }
 }
 
+async function checkToken() {
+    const response = await fetch('/api/play', {
+        method: 'GET'
+    });
+    if (response.status === 401) {
+        // Redirect the user to the login page
+        localStorage.setItem('logout', true);
+        window.location.href = '/login.html'; // Change to the appropriate URL
+        return;
+    }
+}
+
+checkToken();
 userName = localStorage.getItem("userName");
 
 if (userName) {

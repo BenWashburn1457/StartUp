@@ -56,6 +56,7 @@ In this delivable, I was able to create the structure of my website using HTML.
 + Uses MongoDB to authenticate
 + Users scores are only sent to database if logged in
 + Users can only see leaderboard if logged in
++ Users are redirected to login screen if no token is provided
 
 ## Links
 Notes file: https://github.com/BenWashburn1457/StartUp/blob/main/notes.md

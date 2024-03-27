@@ -1,6 +1,8 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const DB = require('./database.js');
+const { WebSocketServer } = require('ws');
+const wss = new WebSocketServer({port: 9900});
 
 const app = express();
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
@@ -9,6 +11,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(express.static('public'));
+
+app.set('trust proxy', true);
 
 const apiRouter = express.Router();
 app.use('/api', apiRouter);
@@ -115,6 +119,23 @@ const server = app.listen(port, async () => {
         console.error("Error connecting to database:", error);
     }
 });
+
+function setUpWebSocket() {``
+
+    wss.on('connection', (ws) => {
+        ws.on('message', (data) => {
+            const msg = String.fromCharCode(...data);
+            console.log('received: %s', msg);
+
+            ws.send(`I heard you say "${msg}"`);
+        });
+
+        ws.send('Hello webSocket');
+    });
+
+}
+
+peerProxy(server);
 
 process.on('SIGINT', () => {
     console.log('Shutting down...');

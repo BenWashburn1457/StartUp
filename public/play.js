@@ -229,6 +229,21 @@ async function checkToken() {
 checkToken();
 userName = localStorage.getItem("userName");
 
+function setUpWebSocket() {
+    var socket = new WebSocket(`wss://${window.location.host}/ws`);
+    this.socket.onclose = (event) => {
+        this.displayMsg('system', 'game', 'disconnected');
+      };
+    this.socket.onmessage = async (event) => {
+        const msg = JSON.parse(await event.data.text());
+        if (msg.type === GameEndEvent) {
+          this.displayMsg('player', msg.from, `scored ${msg.value.score}`);
+        } else if (msg.type === GameStartEvent) {
+          this.displayMsg('player', msg.from, `started a new game`);
+        }
+    };
+}
+
 if (userName) {
     const user = document.querySelector(".name");
 

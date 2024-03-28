@@ -255,8 +255,8 @@ function configureWebSocket() {
 }
 
 function setOnline(connections) {
-    const onlineCount = document.getElementById('online');
-    onlineCount.textContent = `Players Online: ${connections}`
+    const onlineCount = document.getElementById('num');
+    onlineCount.textContent = connections
 }
 
 function displayMsg(userName, message) {

@@ -124,10 +124,7 @@ function setUpWebSocket() {``
 
     wss.on('connection', (ws) => {
         ws.on('message', (data) => {
-            const msg = String.fromCharCode(...data);
-            console.log('received: %s', msg);
-
-            ws.send(`I heard you say "${msg}"`);
+            //send to others
         });
 
         ws.send('Hello webSocket');
@@ -135,7 +132,7 @@ function setUpWebSocket() {``
 
 }
 
-peerProxy(server);
+setUpWebSocket();
 
 process.on('SIGINT', () => {
     console.log('Shutting down...');

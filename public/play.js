@@ -174,6 +174,8 @@ function saveScore(score){
     .catch(error => {
         console.error('Error posting data: ', error)
     })
+
+    broadcastEvent(userName, 'gameEnd', score);
 }
 
 function handleArrowKey(event) {
@@ -231,17 +233,26 @@ userName = localStorage.getItem("userName");
 
 function setUpWebSocket() {
     var socket = new WebSocket(`wss://${window.location.host}/ws`);
-    this.socket.onclose = (event) => {
-        this.displayMsg('system', 'game', 'disconnected');
+    socket.onclose = (event) => {
+        displayMsg('system', 'game', 'disconnected');
       };
-    this.socket.onmessage = async (event) => {
+    socket.onmessage = async (event) => {
         const msg = JSON.parse(await event.data.text());
         if (msg.type === GameEndEvent) {
-          this.displayMsg('player', msg.from, `scored ${msg.value.score}`);
+          displayMsg('player', msg.from, `scored ${msg.value.score}`);
         } else if (msg.type === GameStartEvent) {
-          this.displayMsg('player', msg.from, `started a new game`);
+          displayMsg('player', msg.from, `started a new game`);
         }
     };
+}
+
+function broadcastEvent(from, type, value) {
+    const event = {
+        from: from,
+        type: type,
+        value: value,
+    };
+    this.socket.send(JSON.stringify(event));
 }
 
 if (userName) {
@@ -252,8 +263,10 @@ if (userName) {
     }
 }
 
-g1 = new Grid()
 
-populate(g1)
-populate(g1)
-changeScreen(g1)
+setUpWebSocket();
+g1 = new Grid();
+
+populate(g1);
+populate(g1);
+changeScreen(g1);

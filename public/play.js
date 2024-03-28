@@ -236,20 +236,27 @@ function configureWebSocket() {
     socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
     socket.onopen = (event) => {
       displayMsg('game', 'connected');
-      broadcastEvent(userName, 'gameStart', null);
+      broadcastEvent(userName, 'gameStart', "null");
     };
     socket.onclose = (event) => {
       displayMsg('game', 'disconnected');
     };
     socket.onmessage = async (event) => {
-      textData = await event.data.text();
-        const msg = JSON.parse(textData); // Parse the JSON data directly
-      if (msg.type === 'gameEnd') {
-        displayMsg(msg.userName, `scored ${msg.value}`);
-      } else if (msg.type === 'gameStart') { // Corrected event type string
-        displayMsg(msg.userName, `started a new game`);
-      }
+        const msg = JSON.parse(event.data); // Parse the JSON data directly
+
+        if (msg.type === 'gameEnd') {
+            displayMsg(msg.userName, `scored ${msg.value}`);
+        } else if (msg.type === 'gameStart') { // Corrected event type string
+            displayMsg(msg.userName, `started a new game`);
+        } else if (msg.type === "connections") {
+            setOnline(msg.online);
+        }
     };
+}
+
+function setOnline(connections) {
+    const onlineCount = document.getElementById('online');
+    onlineCount.textContent = `Players Online: ${connections}`
 }
 
 function displayMsg(userName, message) {
@@ -271,7 +278,7 @@ function broadcastEvent(userName, type, value) {
     const event = {
         userName: userName,
         type: type,
-        value: value,
+        value: value
     };
     socket.send(JSON.stringify(event));
 }

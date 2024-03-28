@@ -1,6 +1,17 @@
 const { WebSocketServer } = require('ws');
 const uuid = require('uuid');
 
+function sendOnlineCount(connections) {
+    online = {
+        type: "connections",
+        online: connections.length,
+    };
+
+    connections.forEach((c) => {
+        c.ws.send(JSON.stringify(online))
+    });
+}
+
 function peerProxy(httpServer) {
     const wss = new WebSocketServer({ noServer: true });
 
@@ -16,11 +27,14 @@ function peerProxy(httpServer) {
     wss.on('connection', (ws)=> {
         const connection = { id: uuid.v4(), alive: true, ws: ws};
         connections.push(connection);
+        sendOnlineCount(connections);
 
         ws.on('message', function message(data) {
+            const strData = data.toString('utf-8');
             connections.forEach((c) => {
                 if (c.id !== connection.id) {
-                    c.ws.send(data);
+                    console.log(strData)
+                    c.ws.send(strData);
                 }
             });
         });
@@ -31,6 +45,7 @@ function peerProxy(httpServer) {
             if (pos >0) {
                 connections.splice(pos, 1);
             }
+            sendOnlineCount(connections);
         })
 
         ws.on('pong', () => {

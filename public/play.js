@@ -2,6 +2,7 @@ var squares = [];
 var move = false;
 var total = 0;
 document.addEventListener("keydown", handleArrowKey)
+var socket = new WebSocket(`wss://${window.location.host}/ws`);
 class Grid {
     constructor(height=4, width=4) {
         this.height = height;
@@ -231,28 +232,47 @@ async function checkToken() {
 checkToken();
 userName = localStorage.getItem("userName");
 
-function setUpWebSocket() {
-    var socket = new WebSocket(`wss://${window.location.host}/ws`);
-    socket.onclose = (event) => {
-        displayMsg('system', 'game', 'disconnected');
-      };
-    socket.onmessage = async (event) => {
-        const msg = JSON.parse(await event.data.text());
-        if (msg.type === GameEndEvent) {
-          displayMsg('player', msg.from, `scored ${msg.value.score}`);
-        } else if (msg.type === GameStartEvent) {
-          displayMsg('player', msg.from, `started a new game`);
-        }
+function configureWebSocket() {
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+    socket.onopen = (event) => {
+      displayMsg('game', 'connected');
     };
+    socket.onclose = (event) => {
+      displayMsg('game', 'disconnected');
+    };
+    socket.onmessage = async (event) => {
+      const msg = JSON.parse(await event.data);
+      if (msg.type === 'gameEnd') {
+        displayMsg('player', `scored ${msg.value.score}`);
+      } else if (msg.type === GameStartEvent) {
+        displayMsg('player', `started a new game`);
+      }
+    };
+  }
+
+function displayMsg(userName, message) {
+    const table = document.querySelector(".updates");
+    const row = document.createElement('tr');
+
+    cell = document.createElement('td');
+    cell.textContent = `${userName} ${message}`;
+    row.appendChild(cell);
+
+    if (table.firstChild) {
+        table.insertBefore(row,table.firstChild);
+    } else {
+        table.appendChild(cell);
+    }
 }
 
-function broadcastEvent(from, type, value) {
+function broadcastEvent(userName, type, value) {
     const event = {
-        from: from,
+        userName: userName,
         type: type,
         value: value,
     };
-    this.socket.send(JSON.stringify(event));
+    socket.send(JSON.stringify(event));
 }
 
 if (userName) {
@@ -264,7 +284,7 @@ if (userName) {
 }
 
 
-setUpWebSocket();
+configureWebSocket();
 g1 = new Grid();
 
 populate(g1);

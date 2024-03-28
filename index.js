@@ -1,17 +1,14 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const DB = require('./database.js');
-const { WebSocketServer } = require('ws');
-const wss = new WebSocketServer({port: 9900});
+const { peerProxy } = require('./peerProxy.js');
 
 const app = express();
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 app.use(express.json());
 app.use(cookieParser());
-
 app.use(express.static('public'));
-
 app.set('trust proxy', true);
 
 const apiRouter = express.Router();
@@ -30,7 +27,7 @@ apiRouter.post('/clear/cookie', (req, res) => {
     console.log('clearing cookie')
     res.cookie('token', '', { expires: new Date(0) });
     res.status(200).send({ message: 'Cookie cleared successfully' });
-})
+});
 
 apiRouter.post('/auth/create', asyncMiddleware(async (req, res) => {
     try {
@@ -112,62 +109,11 @@ app.use((_req, res) => {
     res.sendFile("index.html", { root: 'public' });
 });
 
-const server = app.listen(port, async () => {
-    try {
-        console.log(`Listening on port ${port}`);
-    } catch (error) {
-        console.error("Error connecting to database:", error);
-    }
+// Start listening on the port
+const server = app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
 });
 
-function peerProxy(httpServer) {
-    const wss = new WebSocketServer({noServer: true});
-
-    httpServer.on('upgrade', (request, socket, head => {
-        wss.handleUpgrade(request, socket, head, function done(ws) {
-            wss.emit('connection', ws, request)
-        });
-    }))
-
-    let connections = [];
-
-    wss.on('connection', (ws)=> {
-        const connection = { id: UUID.v4(), alive: true, ws: ws};
-        connections.push(connection);
-
-        ws.on('message', function message(data) {
-            connections.forEach((c) => {
-                if (c.id !== connection.id) {
-                    c.ws.send(data);
-                }
-            });
-        });
-
-        ws.on('close', () => {
-            const pos = connections.findIndex((o, i) o.id === connection.id);
-
-            if (pos >0) {
-                connections.splice(pos, 1);
-            }
-        })
-
-        ws.on('pong', () => {
-            connection.alive = true;
-        });
-
-        setInterval(() => {
-            connections.forEach((c) => {
-                if(!c.alive) {
-                    c.ws.terminate();
-                } else {
-                    c.alive = false;
-                    c.ws.ping();
-                }
-            });
-        }, 10000);
-    })
-    
-}
 
 peerProxy(server);
 
@@ -178,3 +124,4 @@ process.on('SIGINT', () => {
         process.exit(0);
     });
 });
+

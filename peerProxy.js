@@ -7,9 +7,9 @@ function peerProxy(httpServer) {
 
     httpServer.on('upgrade', (request, socket, head) => {
         wss.handleUpgrade(request, socket, head, function done(ws) {
-            wss.emit('connection', ws, request)
+            wss.emit('connection', ws, request);
         });
-    })
+    });
 
     let connections = [];
 

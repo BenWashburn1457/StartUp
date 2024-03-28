@@ -2,7 +2,6 @@ var squares = [];
 var move = false;
 var total = 0;
 document.addEventListener("keydown", handleArrowKey)
-var socket = new WebSocket(`wss://${window.location.host}/ws`);
 class Grid {
     constructor(height=4, width=4) {
         this.height = height;
@@ -237,19 +236,21 @@ function configureWebSocket() {
     socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
     socket.onopen = (event) => {
       displayMsg('game', 'connected');
+      broadcastEvent(userName, 'gameStart', null);
     };
     socket.onclose = (event) => {
       displayMsg('game', 'disconnected');
     };
     socket.onmessage = async (event) => {
-      const msg = JSON.parse(await event.data);
+      textData = await event.data.text();
+        const msg = JSON.parse(textData); // Parse the JSON data directly
       if (msg.type === 'gameEnd') {
-        displayMsg('player', `scored ${msg.value.score}`);
-      } else if (msg.type === GameStartEvent) {
-        displayMsg('player', `started a new game`);
+        displayMsg(msg.userName, `scored ${msg.value}`);
+      } else if (msg.type === 'gameStart') { // Corrected event type string
+        displayMsg(msg.userName, `started a new game`);
       }
     };
-  }
+}
 
 function displayMsg(userName, message) {
     const table = document.querySelector(".updates");

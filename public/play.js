@@ -240,7 +240,6 @@ function configureWebSocket() {
     };
     socket.onclose = (event) => {
       displayMsg('game', 'disconnected');
-      configureWebSocket();
     };
     socket.onmessage = async (event) => {
         const msg = JSON.parse(event.data); // Parse the JSON data directly

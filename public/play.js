@@ -240,6 +240,7 @@ function configureWebSocket() {
     };
     socket.onclose = (event) => {
       displayMsg('game', 'disconnected');
+      configureWebSocket();
     };
     socket.onmessage = async (event) => {
         const msg = JSON.parse(event.data); // Parse the JSON data directly
@@ -250,6 +251,8 @@ function configureWebSocket() {
             displayMsg(msg.userName, `started a new game`);
         } else if (msg.type === "connections") {
             setOnline(msg.online);
+        } else if (msg === 'ping') {
+            webSocket.send('pong');
         }
     };
 }

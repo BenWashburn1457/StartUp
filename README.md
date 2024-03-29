@@ -58,5 +58,12 @@ In this delivable, I was able to create the structure of my website using HTML.
 + Users can only see leaderboard if logged in
 + Users are redirected to login screen if no token is provided
 
+### WebSocket Deliverables
++ The backend listens for websocket connection
++ Frontend makes WebSocket connection
++ data about starting games and finishing scores are passed to all users through websocket
++ players can see websocket updates
++ Players can see how many people are online through websocket data
+
 ## Links
 Notes file: https://github.com/BenWashburn1457/StartUp/blob/main/notes.md

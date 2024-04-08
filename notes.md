@@ -33,6 +33,7 @@ To connect to server, use this SSH command:
 
 To deploy files to server:
 ```./deployService.sh -k ../cs260-key.pem -h ben2048.click -s startup```
+```./deployReact.sh -k ../cs260-key.pem -h ben2048.click -s simon```
 
 ## Caddy
 Caddy will rout you depending on what was searched

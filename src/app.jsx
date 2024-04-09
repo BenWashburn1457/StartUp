@@ -1,12 +1,11 @@
 import React from 'react';
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
-import { Play } from './play/play';
-import { Scores } from './scores/scores';
-import { About } from './about/about';
+// import { Play } from './play/play';
+// import { Scores } from './scores/scores';
 import { AuthState } from './login/authState';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './app.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import './app.css';
 
 function App() {
     const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
@@ -25,25 +24,6 @@ function App() {
                 <li className='nav-item'>
                   <NavLink className='nav-link' to=''>
                     Login
-                  </NavLink>
-                </li>
-                {authState === AuthState.Authenticated && (
-                  <li className='nav-item'>
-                    <NavLink className='nav-link' to='play'>
-                      Play
-                    </NavLink>
-                  </li>
-                )}
-                {authState === AuthState.Authenticated && (
-                  <li className='nav-item'>
-                    <NavLink className='nav-link' to='scores'>
-                      Scores
-                    </NavLink>
-                  </li>
-                )}
-                <li className='nav-item'>
-                  <NavLink className='nav-link' to='about'>
-                    About
                   </NavLink>
                 </li>
               </menu>
@@ -65,9 +45,6 @@ function App() {
               }
               exact
             />
-            <Route path='/play' element={<Play userName={userName} />} />
-            <Route path='/scores' element={<Scores />} />
-            <Route path='/about' element={<About />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
   

@@ -1,53 +1,89 @@
-.body {
-    display: flex;
-    flex-direction: column;
-    min-width: 375px;
-    height: 100vh;
-  }
+* {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
+}
+
+
+header {
+  display: flex;
+  height:40px;
+  background-color: rgb(0, 11, 17);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.name {
+  color: darkgray;
+  padding: 10px;
+}
+
+.nav-link {
+  color:darkgrey;
+  text-decoration: none;
+}
+
+menu {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  flex: 0 20px;
+  background-color: rgb(92, 167, 204);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
   
-  header {
-    flex: 0 80px;
-  }
-  
-  main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-  }
-  
-  footer {
-    flex: 0 30px;
-  }
-  
-  menu {
-    flex: 1;
-    display: flex;
-    /*  overwrite Bootstrap so the menu does not wrap */
-    flex-direction: row !important;
-    list-style: none;
-  }
-  
-  .navbar-brand {
-    padding-left: 0.3em;
-    border-bottom: solid rgb(182, 182, 182) thin;
-  }
-  
-  menu .nav-item {
-    padding: 0 0.3em;
-  }
-  
-  footer a {
-    float: right;
-  }
-  
-  @media (max-height: 600px) {
-    header {
-      display: none;
-    }
-    footer {
-      display: none;
-    }
-  }
-  
+  text-shadow: 
+              -1px -1px 0 #000,  
+               1px -1px 0 #000,
+              -1px  1px 0 #000,
+               3px  3px 0 #000;
+}
+
+body {
+  margin: 0;
+  flex: 1;
+  background-color: rgb(92, 167, 204);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(214, 130, 99);
+  color: rgb(0, 6, 8);   
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 100px;
+  color: rgb(214, 130, 99);
+  padding: 0.25em;
+}
+
+h2 {
+  font-size:30px;
+  color: rgb(92, 167, 204);
+  text-shadow: 
+  -0.5px -0.5px 0 #000,  
+  0.5px -0.5px 0 #000,
+  -0.5px  0.5px 0 #000,
+  0.5px  0.5px 0 #000;
+}
+
+footer {
+  background-color: rgb(136, 124, 120);
+  position: absolute;
+  margin-top: auto;
+  bottom: 0;
+  width: 100%;
+}

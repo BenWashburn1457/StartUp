@@ -41,5 +41,33 @@ export function Unauthenticated(props) {
         }
     }
 
+    return (
+        <div>
+            <div className='username'>
+                <input
+                    className='form-control'
+                    type='text'
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                    placeholder='username'
+                />
+            </div>
+            <div className='password'>
+                <input
+                    className='form-control'
+                    type='password'
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder='password'
+                />
+            </div>
+            <div className='playerName'>{props.username}</div>
+            <Button varient='primary' onClick={createUser}>
+                Create User
+            </Button>
+            <Button varient='secondary' onClick={checkLogin}>
+                Login
+            </Button>
+        </div>
+    )
 
 }

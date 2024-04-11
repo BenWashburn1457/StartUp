@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './game.css';
 
 export function Game(props) {
+    
+
+
 
     return (
         <main>

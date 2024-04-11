@@ -60,7 +60,7 @@ function App() {
           </Routes>
   
           <footer>
-            <div className>
+            <div>
               <span>Created by Ben Washburn</span>
               <a href='https://github.com/BenWashburn1457/StartUp.git'>
                 The GitHub

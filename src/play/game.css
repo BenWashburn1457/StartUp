@@ -83,11 +83,12 @@ head{
     flex: 0 30px;
 }
 
-main {
+.center {
     margin: 0;
     display: flex;
     flex-direction: column;
     flex: 15;
+    height: 100%;
 }
 
 menu {
@@ -104,21 +105,18 @@ menu {
     background-color: rgb(214, 130, 99);
     justify-content: center;
 }
-.grid{
-
-}
 
 #game {
     border-collapse: collapse;
     width: 100%;
     height: 100%;
     border: 6px solid rgb(92, 167, 204);
-    max-height: 550px;
+    max-height: 445px;
     max-width: 550px;
 
 }
 
-#game td {
+td {
     background-color: rgb(148, 182, 199); /* Cell background color */
     width: 25%;
     height: 25%;
@@ -126,16 +124,10 @@ menu {
     text-align: center;
     font-size: 24px; /* Font size for cell content */
     font-weight: bold; /* Bold font for cell content */
-    border: 6px solid  rgb(202, 168, 155) ; /* Border color similar to 2048 */
+    border: 6px solid  rgb(202, 168, 155) ;
 }
 
-#game td:before{
+td:before{
     content: "";
     display: block;
-}
-
-footer {  
-    margin-top: auto;
-    background-color: rgb(136, 124, 120);
-    width: 100%;
 }

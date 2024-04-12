@@ -14,7 +14,6 @@ function App() {
   
     return (
       <BrowserRouter>
-        <div className='body'>
           <header className='container-fluid'>
             <nav className='navbar fixed-top navbar-dark'>
               <menu className='navbar-nav'>
@@ -67,7 +66,6 @@ function App() {
               </a>
             </div>
           </footer>
-        </div>
       </BrowserRouter>
     );
   }

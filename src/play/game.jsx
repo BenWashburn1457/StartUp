@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import './game.css';
-document.addEventListener("keydown", handleArrowKey)
+
 
 export function Game(props) {
 
+    useEffect(() => {
+        const handleKeyDown = (event => {
+            handleArrowKey(event);
+        });
+        document.addEventListener("keydown", handleKeyDown);
 
+        // Cleanup function to remove the event listener when component unmounts
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, []);
+
+    let hasMoved = true;
     const tableSize = 4;
     let tempGrid = []
     let total = 0;
@@ -22,11 +34,11 @@ export function Game(props) {
 
     function populate(grid){
         let tempGrid = [...grid];
-        let newx = -1;
-        let newy = -1;
-        let newNumber = Math.random() < 0.5 ? baseNum1 : baseNum2;
-
-        while(tempGrid.getSquare(newx, newy)!== 0){
+        let newx = Math.floor(Math.random() *(tableSize))
+        let newy = Math.floor(Math.random() *(tableSize))
+        let newNumber = Math.random() < 0.5 ? baseNum1 : baseNum2;        
+        
+        while(tempGrid[newy][newx] !== 0){
             newx = Math.floor(Math.random() *(tableSize))
             newy = Math.floor(Math.random() *(tableSize))
         }
@@ -36,38 +48,44 @@ export function Game(props) {
     }
 
     function move(grid,x,y,newx,newy,){
+        hasMoved = true;
         let tempGrid = [...grid];
-        tempGrid[newy][newx] == tempGrid[y][x];
+        tempGrid[newy][newx] = tempGrid[y][x];
+        tempGrid[y][x] = 0;
         return tempGrid;
     }
 
     function moveControl(grid, x, y, newx, newy) {
         let tempGrid = [...grid];
-        if (checkSquare(x, y)) {
-            if (grid[newy][newx] == 0) {
-                tempGrid = move(tempGrid, x, y, newx, newy);
-            } else if (collision(tempGrid, x, y, newx, newy)) {
-                tempGrid = combine(tempGrid, x, y, newx, newy);
+        if(tempGrid[y][x] > 0){
+            if (checkSquare(tempGrid, newx, newy)) {
+                if (grid[newy][newx] == 0) {
+                    tempGrid = move(tempGrid, x, y, newx, newy);
+                    tempGrid = moveControl(tempGrid, newx, newy, newx + (newx-x), newy + (newy-y))
+                } else if (collision(tempGrid, x, y, newx, newy)) {
+                    tempGrid = combine(tempGrid, x, y, newx, newy);
+                }
             }
         }
         return tempGrid;
     }
 
-    function checkSquare(x, y){
-        if (x >=0 && x<tableSize && y >=0 && y < tableSize){
+    function checkSquare(grid, x, y){
+        if ((x >=0 && x<tableSize) && (y >=0 && y < tableSize)){
             return true;
         }
         return false;
     }
 
     function collision(grid, x, y, newx, newy){
-        if(grid[y][x] == grid[newx][newy]) {
+        if(grid[y][x] === grid[newy][newx]) {
             return true;
         }
         return false;
     }
 
     function combine(grid, x, y, newx, newy) {
+        hasMoved = true;
         let tempGrid = [...grid];
         tempGrid[newy][newx] *= 2;
         tempGrid[y][x] = 0;
@@ -75,53 +93,77 @@ export function Game(props) {
     }
 
     function handleArrowKey(event) {
-        //Woroking on this function, have to change loops so that x and y can be passed on
         if (event.keyCode === 37) {
-            squares.slice().sort((a, b) => (a.y+a.x*4) - (b.y+b.x*4)).forEach(square =>{
-                moveControl(gridState, )
-                });
+            //left
+            for (let x=0; x<tableSize; x++){
+                for (let y=0; y<tableSize; y++){
+                    setGridState(moveControl(gridState, x, y, x-1, y));
+                }
+            }
         } else if (event.keyCode === 38) {
-            squares.slice().sort((a, b) => (a.x+a.y*4) - (b.x+b.y*4)).forEach(square =>{
-                square.direction_control("up")
-                });
+            //up
+            for (let y=0; y<tableSize; y++){
+                for (let x=0; x<tableSize; x++){
+                    setGridState(moveControl(gridState, x, y, x, y-1));
+                }
+            }
         } else if (event.keyCode === 39) {
-            squares.slice().sort((a, b) => (b.y+b.x*4) - (a.y+a.x*4)).forEach(square =>{
-                square.direction_control("right")
-                });
+            //right
+            for (let x=tableSize-1; x>=0; x--){
+                for (let y=0; y<tableSize; y++){
+                    setGridState(moveControl(gridState, x, y, x+1, y));
+                }
+            }
         } else if (event.keyCode === 40) {
-            squares.slice().sort((a, b) => (b.x+b.y*4) - (a.x+a.y*4)).forEach(square =>{
-                square.direction_control("down")
-                });
+            //down
+            for (let y=tableSize-1; y>=0; y--){
+                for (let x=0; x<tableSize; x++){
+                    setGridState(moveControl(gridState, x, y, x, y+1));
+                }
+            }
         }
-        if(move){populate(g1); score(); if(squares.length >= 16){endgame()} changeScreen(g1)}
-    
+        if(hasMoved){
+            hasMoved = false;
+            setGridState(populate(gridState)); 
+        }
+    }
+    let start = true;
+    for (let y = 0; y < tableSize; y++){
+        for (let x=0; x<tableSize; x++){
+            if(gridState[y][x] > 0){
+                start = false;
+            }
+        }
+    }
+    if (start){
+        setGridState(populate(gridState));
+        setGridState(populate(gridState));
     }
 
-
     return (
-        <main>
+        <div className='center'>
             <div><h1 className="score">Score: 0</h1></div>
             <div className="game">
-            <div className="side">
-                <h2 id = "online">Players Online: <span id="num">0</span></h2>
-                <label>Recent Updates</label>
-                <table id="updateTable">
-                    <tbody className="updates">
-                    </tbody>
-                </table>
-            
-            </div>
-            <div className="grid">
-                <table id="game">
-                    <tbody>
-                        <tr><td></td><td></td><td></td><td></td></tr>
-                        <tr><td></td><td></td><td></td><td></td></tr>
-                        <tr><td></td><td></td><td></td><td></td></tr>
-                        <tr><td></td><td></td><td></td><td></td></tr>
-                    </tbody>
-                </table>
+                <div className="side">
+                    <h2 id = "online">Players Online: <span id="num">0</span></h2>
+                    <label>Recent Updates</label>
+                    <table id="updateTable">
+                        <tbody className="updates">
+                        </tbody>
+                    </table>
+                
+                </div>
+                <div className="grid">
+                    <table id="game">
+                        <tbody>
+                            <tr><td>{gridState[0][0] !== 0 && gridState[0][0]}</td><td>{gridState[0][1] !== 0 && gridState[0][1]}</td><td>{gridState[0][2] !== 0 && gridState[0][2]}</td><td>{gridState[0][3] !== 0 && gridState[0][3]}</td></tr>
+                            <tr><td>{gridState[1][0] !== 0 && gridState[1][0]}</td><td>{gridState[1][1] !== 0 && gridState[1][1]}</td><td>{gridState[1][2] !== 0 && gridState[1][2]}</td><td>{gridState[1][3] !== 0 && gridState[1][3]}</td></tr>
+                            <tr><td>{gridState[2][0] !== 0 && gridState[2][0]}</td><td>{gridState[2][1] !== 0 && gridState[2][1]}</td><td>{gridState[2][2] !== 0 && gridState[2][2]}</td><td>{gridState[2][3] !== 0 && gridState[2][3]}</td></tr>
+                            <tr><td>{gridState[3][0] !== 0 && gridState[3][0]}</td><td>{gridState[3][1] !== 0 && gridState[3][1]}</td><td>{gridState[3][2] !== 0 && gridState[3][2]}</td><td>{gridState[3][3] !== 0 && gridState[3][3]}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        </main>
     )
 }

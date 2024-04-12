@@ -1,6 +1,7 @@
 * {
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 20px;
+  overflow: hidden;
 }
 
 
@@ -45,23 +46,18 @@ menu {
                3px  3px 0 #000;
 }
 
+#root {
+height: 100%;
+}
+
 body {
-  margin: 0;
   flex: 1;
   background-color: rgb(92, 167, 204);
 }
 
 main {
-  display: flex;
-  flex-direction: column;
   background-color: rgb(214, 130, 99);
-  color: rgb(0, 6, 8);   
-}
-
-.root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  height: 100%;
 }
 
 h1 {
@@ -83,7 +79,6 @@ h2 {
 footer {
   background-color: rgb(136, 124, 120);
   position: absolute;
-  margin-top: auto;
   bottom: 0;
   width: 100%;
 }

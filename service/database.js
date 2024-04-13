@@ -58,7 +58,7 @@ async function getHighScores() {
     const query = { score: {$gt: 0, $lt: 5000} };
     const options = {
       sort: { score : -1},
-      limit: 6,
+      limit: 5,
     };
     const cursor = await scores.find(query, options);
     return cursor.toArray();

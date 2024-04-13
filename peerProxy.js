@@ -32,6 +32,7 @@ function peerProxy(httpServer) {
         ws.on('pong', () => {
             connection.alive = true;
         });
+        
         console.log("running")
         const pingInterval = setInterval(() => {
             console.log("sending ping");

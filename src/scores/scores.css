@@ -16,3 +16,12 @@
     font-weight: bold; /* Bold font for cell content */
     border: 6px solid  rgb(202, 168, 155) ;
 }
+
+#inspiration {
+  padding: 10px;
+  color: black;
+  background-color: rgb(202, 168, 155);
+  border: 2px solid black;
+  align-self: center;
+  bottom: 0;
+}

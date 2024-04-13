@@ -6,6 +6,10 @@ export function Scores() {
   const [scores, setScores] = React.useState([]);
 
   React.useEffect(() => {
+    getQuote();
+  })
+
+  React.useEffect(() => {
     fetch('/api/scores')
       .then(response => {
         if (response.status === 401) {
@@ -52,17 +56,52 @@ export function Scores() {
     );
   }
 
+  async function getQuote() {
+    let quote = ''
+    try {
+        
+        const response = await fetch('https://api.api-ninjas.com/v1/quotes?category=success', {
+            headers: {
+                'X-Api-Key' : '5eUfhqL4ee9xih8bKX96MuNBkps0cJG74Xt6b4vC'
+            }
+        });
+        quote = await response.json();
+        
+
+    } catch {
+        quote = "After all that has been said, there is no avoiding the poop corn"
+    }
+
+    displayQuote(quote)
+}
+
+function displayQuote(quote) {
+  let quoteText = quote['0']['quote'];
+  let quoteAuthor = quote['0']['author'];
+  let quoteContainer = document.querySelector('#quoteContainer');
+  let authorContainer = document.querySelector('#authorContainer');
+  quoteContainer.textContent = quoteText;
+  authorContainer.textContent = quoteAuthor;
+  console.log(quote)
+}
+
   return (
     <div className='leaderboards'>
       <table className='scores'>
+        <tbody id='scores'>
           <tr>
             <th>#</th>
             <th>Name</th>
             <th>Score</th>
             <th>Date</th>
           </tr>
-        <tbody id='scores'>{scoreRows}</tbody>
+          {scoreRows}
+        </tbody>
       </table>
+      <div id="inspiration">
+          <h4 id='quoteContainer'>Inspirational quote</h4>
+          <h5 id="authorContainer">Author</h5>
+      </div>
     </div>
   );
 }

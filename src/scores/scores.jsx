@@ -25,7 +25,7 @@ export function Scores() {
     for (const [i, score] of scores.entries()) {
       scoreRows.push(
         <tr key={i}>
-          <td>{i}</td>
+          <td>{i+1}</td>
           <td>{score.userName}</td>
           <td>{score.score}</td>
           <td>{score.date}</td>
@@ -41,7 +41,7 @@ export function Scores() {
   }
 
   return (
-    <main className='container-fluid bg-secondary text-center'>
+    <div className='leaderboards'>
       <table className='table table-warning table-striped-columns'>
         <thead className='table-dark'>
           <tr>
@@ -53,6 +53,6 @@ export function Scores() {
         </thead>
         <tbody id='scores'>{scoreRows}</tbody>
       </table>
-    </main>
+    </div>
   );
 }

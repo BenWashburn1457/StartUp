@@ -116,7 +116,7 @@ menu {
 
 }
 
-td {
+#game td {
     background-color: rgb(148, 182, 199); /* Cell background color */
     width: 25%;
     height: 25%;

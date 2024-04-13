@@ -1,8 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './game.css';
 
 
+
 export function Game(props) {
+    const socketRef = useRef(null); // Define socket as a ref
+
+    useEffect(() => {
+        const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+        const newSocket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+        socketRef.current = newSocket; // Assign newSocket to socketRef.current
+
+        newSocket.onopen = (event) => {
+            console.log("game connected");
+            configureWebSocket(); // No need to pass socket, use socketRef.current inside the function
+            broadcastEvent(props.userName, 'gameStart', "null");
+        };
+
+        return () => {
+            newSocket.close();
+        };
+    }, []);
+    
+
+    
 
     useEffect(() => {
         const handleKeyDown = (event => {
@@ -22,6 +43,7 @@ export function Game(props) {
     let total = 0;
     let baseNum1 = 2;
     let baseNum2 = 4;
+    const [messages, setMessages] = React.useState([]);
 
     for (let y = 0; y < tableSize; y++){
         tempGrid.push([]);
@@ -43,8 +65,16 @@ export function Game(props) {
             newy = Math.floor(Math.random() *(tableSize))
         }
         tempGrid[newy][newx] = newNumber;
-        total += newNumber;
+        total+=newNumber;
+        showScore(total)
         return tempGrid;
+    }
+
+    function showScore(total) {
+        let score = document.querySelector(".score");
+        if (score) {
+            score.textContent = `Score: ${total}`;
+        }
     }
 
     function move(grid,x,y,newx,newy,){
@@ -124,7 +154,8 @@ export function Game(props) {
         }
         if(hasMoved){
             hasMoved = false;
-            setGridState(populate(gridState)); 
+            setGridState(populate(gridState));
+            endgame()
         }
     }
     let start = true;
@@ -140,18 +171,124 @@ export function Game(props) {
         setGridState(populate(gridState));
     }
 
+    function getSquare(x,y){
+        if(checkSquare(gridState,x,y)){
+            return gridState[y][x]
+        }
+    }
+
+    function endgame() {
+        for (let y = 0; y < tableSize; y++)
+            for (let x = 0; x < tableSize; x++) {
+                if (getSquare(x,y) === 0){
+                    return false;
+                }
+                if (getSquare(x,y) === getSquare(x-1,y) ||
+                    getSquare(x,y) === getSquare(x+1,y) ||
+                    getSquare(x,y) === getSquare(x,y+1) ||
+                    getSquare(x,y) === getSquare(x,y-1)) {
+                    // If any adjacent square has the same number, return false
+                    return false;
+                }
+            }
+        // If no adjacent squares have the same number, return true
+            console.log("gameover")
+            let score = document.getElementsByClassName("score");
+            score[0].textContent = `Gameover   Score: ${total}`
+    
+            localStorage.setItem("score", total);
+            saveScore(total);
+    }
+
+    function saveScore(score){
+        const date = new Date().toLocaleDateString();
+    
+        fetch('/api/update/leaderboard', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userName: props.userName,
+                score: score,
+                date: date
+            })
+        })
+        .then(Response =>{
+            if(!Response.ok){
+                throw new error('Network response was not ok');
+            }
+            return Response.json();
+        })
+        .then(data => {
+            console.log("Successfully posted data:", data);
+        })
+        .catch(error => {
+            console.error('Error posting data: ', error)
+        })
+    
+        broadcastEvent(props.userName, 'gameEnd', score);
+    }
+
+    function configureWebSocket() {
+        
+        socketRef.current.onclose = (event) => {
+          displayMsg('game disconnected');
+        };
+        socketRef.current.onmessage = async (event) => {
+            const msg = JSON.parse(event.data); // Parse the JSON data directly
+            console.log(msg)
+            if (msg.type === 'gameEnd') {
+                displayMsg(`${msg.userName} scored ${msg.value}`);
+            } else if (msg.type === 'gameStart') { // Corrected event type string
+                displayMsg(`${msg.userName} started a new game`);
+            } else if (msg.type === "connections") {
+                setOnline(msg.online);
+            } else if (msg === 'ping') {
+                socketRef.current.send('pong');
+            }
+        };
+    }
+
+
+
+    function broadcastEvent(userName, type, value) {
+
+        const event = {
+            userName: userName,
+            type: type,
+            value: value
+        };
+        socketRef.current.send(JSON.stringify(event));
+    }
+
+    function setOnline(connections) {
+        const onlineCount = document.getElementById('num');
+        onlineCount.textContent = connections
+    }
+
+    
+
+    function displayMsg(message) {
+        // Update messages array using setMessages
+        setMessages(prevMessages => [
+            ...prevMessages,
+            <tr key={prevMessages.length + 1}>
+                <td>{message}</td>
+            </tr>
+        ]);
+    }
+
     return (
         <div className='center'>
-            <div><h1 className="score">Score: 0</h1></div>
+            <div><h1 className="score">Score: {total}</h1></div>
             <div className="game">
                 <div className="side">
                     <h2 id = "online">Players Online: <span id="num">0</span></h2>
                     <label>Recent Updates</label>
                     <table id="updateTable">
-                        <tbody className="updates">
-                        </tbody>
+                        <tbody className="updates">{messages}</tbody>
                     </table>
-                
                 </div>
                 <div className="grid">
                     <table id="game">

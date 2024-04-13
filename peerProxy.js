@@ -50,16 +50,6 @@ function peerProxy(httpServer) {
             connection.alive = true;
         });
 
-        setInterval(() => {
-            connections.forEach((c) => {
-                if(!c.alive) {
-                    c.ws.terminate();
-                } else {
-                    c.alive = false;
-                    c.ws.ping();
-                }
-            });
-        }, 10000);
     })
     
 }

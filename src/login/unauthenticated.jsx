@@ -33,7 +33,9 @@ export function Unauthenticated(props) {
             }
             if (response?.status === 200) {
                 localStorage.setItem('userName', userName);
+                window.location.href = '/play'
             }
+
         }
         catch (error) {
             console.error('Error posting data: ', error);

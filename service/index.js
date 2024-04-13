@@ -98,7 +98,7 @@ secureApiRouter.post('/update/leaderboard', asyncMiddleware(async (req, res) => 
 }));
 
 
-secureApiRouter.get('/leaderboard', asyncMiddleware(async (req, res) => {
+secureApiRouter.get('/scores', asyncMiddleware(async (req, res) => {
     console.log("Sending leaderboard");
     
     const scores = await DB.getHighScores();

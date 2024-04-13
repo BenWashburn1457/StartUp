@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
 import { Play } from './play/play';
-// import { Scores } from './scores/scores';
+import { Scores } from './scores/scores';
 import { AuthState } from './login/authState';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
@@ -22,14 +22,14 @@ function App() {
                     Login
                   </NavLink>
                 </li>
-                {authState === AuthState.Unauthenticated && (
+                {authState === AuthState.Authenticated && (
                 <li className='nav-item'>
                   <NavLink className='nav-link' to='play'>
                     Play
                   </NavLink>
                 </li>
               )}
-              {authState === AuthState.Unauthenticated && (
+              {authState === AuthState.Authenticated && (
                 <li className='nav-item'>
                   <NavLink className='nav-link' to='scores'>
                     Scores
@@ -55,6 +55,7 @@ function App() {
               exact
             />
             <Route path='/play' element={<Play userName={userName}/>} />
+            <Route path='/scores' element={<Scores/>} />
             <Route path='*' element={<NotFound />} />
           </Routes>
   

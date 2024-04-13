@@ -10,7 +10,7 @@ export function Login({ userName, authState, onAuthChange }) {
     <div className="login">
       <div className="title">
         <img id="pic1" width="200px" src="2048_adventure1.jpg" alt="adventure" />
-        <h1>2048</h1> 
+        <h3 id="title">2048</h3> 
         <img width="200px" src="2048_adventure.jpg" alt="adventure" />
       </div>
       <main>

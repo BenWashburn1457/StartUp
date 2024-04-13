@@ -5,3 +5,14 @@
     align-items: center;
     justify-content: space-around;
   }
+
+  .scores td {
+    background-color: rgb(148, 182, 199); /* Cell background color */
+    width: 25%;
+    height: 25%;
+    padding: 20px; /* Padding for cell content */
+    text-align: center;
+    font-size: 24px; /* Font size for cell content */
+    font-weight: bold; /* Bold font for cell content */
+    border: 6px solid  rgb(202, 168, 155) ;
+}

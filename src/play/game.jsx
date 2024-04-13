@@ -13,6 +13,7 @@ export function Game(props) {
 
         newSocket.onopen = (event) => {
             console.log("game connected");
+            displayMsg("Game Connected")
             configureWebSocket(); // No need to pass socket, use socketRef.current inside the function
             broadcastEvent(props.userName, 'gameStart', "null");
         };
@@ -192,7 +193,6 @@ export function Game(props) {
                 }
             }
         // If no adjacent squares have the same number, return true
-            console.log("gameover")
             let score = document.getElementsByClassName("score");
             score[0].textContent = `Gameover   Score: ${total}`
     
@@ -237,7 +237,6 @@ export function Game(props) {
         };
         socketRef.current.onmessage = async (event) => {
             const msg = JSON.parse(event.data); // Parse the JSON data directly
-            console.log(msg)
             if (msg.type === 'gameEnd') {
                 displayMsg(`${msg.userName} scored ${msg.value}`);
             } else if (msg.type === 'gameStart') { // Corrected event type string
@@ -246,6 +245,7 @@ export function Game(props) {
                 setOnline(msg.online);
             } else if (msg === 'ping') {
                 socketRef.current.send('pong');
+                displayMsg(`Pinged`);
             }
         };
     }

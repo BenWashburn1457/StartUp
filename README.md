@@ -65,5 +65,11 @@ In this delivable, I was able to create the structure of my website using HTML.
 + players can see ***websocket*** updates
 + Players can see how many people are online through ***websocket*** data
 
+### React Deliverables
++ The project is bundled using Vite
++ There are six react components for loggining in, playing game, and seeing score
++ Uses the react router to render the login, play, and scores pages
++ uses hooks useEffect and setCount
+
 ## Links
 Notes file: https://github.com/BenWashburn1457/StartUp/blob/main/notes.md

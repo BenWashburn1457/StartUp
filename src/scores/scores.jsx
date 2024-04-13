@@ -7,18 +7,30 @@ export function Scores() {
 
   React.useEffect(() => {
     fetch('/api/scores')
-      .then((response) => response.json())
-      .then((scores) => {
+      .then(response => {
+        if (response.status === 401) {
+          console.log('Unauthorized access detected. Redirecting to login page.');
+          localStorage.setItem('logout', true);
+          window.location.href = '/login'; // Redirect to login page
+          throw new Error('Unauthorized'); // Throwing an error to skip further .then() blocks
+        }
+        return response.json(); // Continue processing the response
+      })
+      .then(scores => {
+        // This block will only be executed if the response status is not 401
         setScores(scores);
         localStorage.setItem('scores', JSON.stringify(scores));
       })
-      .catch(() => {
+      .catch(error => {
+        // Handle any errors, such as network issues or parsing errors
+        console.error('Error fetching scores:', error);
         const scoresText = localStorage.getItem('scores');
         if (scoresText) {
           setScores(JSON.parse(scoresText));
         }
       });
   }, []);
+  
 
   const scoreRows = [];
   if (scores.length) {
@@ -42,15 +54,13 @@ export function Scores() {
 
   return (
     <div className='leaderboards'>
-      <table className='table table-warning table-striped-columns'>
-        <thead className='table-dark'>
+      <table className='scores'>
           <tr>
             <th>#</th>
             <th>Name</th>
             <th>Score</th>
             <th>Date</th>
           </tr>
-        </thead>
         <tbody id='scores'>{scoreRows}</tbody>
       </table>
     </div>

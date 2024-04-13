@@ -6,6 +6,21 @@ import { Authenticated } from './authenticated';
 import { AuthState } from './authState';
 
 export function Login({ userName, authState, onAuthChange }) {
+  let unauthorized = localStorage.getItem('logout');
+  if(unauthorized){
+    localStorage.clear();
+    try {
+      const response =  fetch('/api/clear/cookie', {
+          method: 'POST',
+      });
+  } catch (error) {
+      console.error('Error posting data: ', error);
+      throw error; // Re-throwing the error for further handling
+  }
+    authState = AuthState.Unauthenticated
+    window.location.reload();
+  }
+
   return (
     <div className="login">
       <div className="title">

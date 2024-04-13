@@ -1,20 +1,5 @@
-const { WebSocketServer } = require('ws');
-const uuid = require('uuid');
-
-function sendOnlineCount(connections) {
-    online = {
-        type: "connections",
-        online: connections.length,
-    };
-
-    connections.forEach((c) => {
-        c.ws.send(JSON.stringify(online))
-    });
-}
-
 function peerProxy(httpServer) {
     const wss = new WebSocketServer({ noServer: true });
-
 
     httpServer.on('upgrade', (request, socket, head) => {
         wss.handleUpgrade(request, socket, head, function done(ws) {
@@ -23,7 +8,6 @@ function peerProxy(httpServer) {
     });
 
     let connections = [];
-
     wss.on('connection', (ws)=> {
         const connection = { id: uuid.v4(), alive: true, ws: ws};
         connections.push(connection);
@@ -33,7 +17,7 @@ function peerProxy(httpServer) {
             const strData = data.toString('utf-8');
             connections.forEach((c) => {
                 if (c.id !== connection.id) {
-                    console.log(strData)
+                    console.log(strData);
                     c.ws.send(strData);
                 }
             });
@@ -41,17 +25,22 @@ function peerProxy(httpServer) {
 
         ws.on('close', () => {
             const pos = connections.findIndex((o, i) => o.id === connection.id);
-
             connections.splice(pos, 1);
             sendOnlineCount(connections);
-        })
+        });
 
         ws.on('pong', () => {
             connection.alive = true;
         });
+        console.log("running")
+        const pingInterval = setInterval(() => {
+            console.log("sending ping");
+            sendPing(ws);
+        }, 10000);
 
-    })
-    
+        console.log("Ping interval set up");
+
+    });
 }
 
 module.exports = { peerProxy };
